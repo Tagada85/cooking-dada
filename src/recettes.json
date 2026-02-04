@@ -1,0 +1,15 @@
+[{
+    "name": "Risotto aux champignons",
+    "numberPeople": 10,
+    "ingredients": [
+        {"name": "Riz rond",  "quantity": 0.7, "unit": "kilo"},
+        {"name": "Vin blanc", "quantity": 0.2, "unit": "litre"},
+        {"name": "Cube bouillon de légumes", "quantity": 2.5, "unit": "unité"},
+        {"name": "Parmesan rapé", "quantity": 10, "unit": "cuillère à soupe"},
+        {"name": "Champignons bruns", "quantity": 1, "unit": "kilo"},
+        {"name": "Echalote", "quantity": 2.5, "unit": "unité"},
+        {"name": "Gousse d'ail", "quantity": 2.5, "unit": "unité"},
+        {"name": "Roquette", "quantity": 10, "unit": "poignée"}
+    ]
+
+}]
