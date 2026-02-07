@@ -47,7 +47,7 @@ npm run build
 npx serve .
 ```
 
-Then open http://localhost:3000/public/
+Then open http://localhost:3000/docs/
 
 ## Development
 
@@ -71,7 +71,7 @@ npx serve .
 
 ```
 cooking-dada/
-├── public/
+├── docs/
 │   ├── index.html      # Main HTML
 │   ├── style.css       # Styles (cookbook theme)
 │   ├── manifest.json   # PWA manifest
@@ -90,8 +90,8 @@ cooking-dada/
 ## Creating Icons
 
 For the PWA to be installable, you need icons. Create two PNG files:
-- `public/icons/icon-192.png` (192x192 pixels)
-- `public/icons/icon-512.png` (512x512 pixels)
+- `docs/icons/icon-192.png` (192x192 pixels)
+- `docs/icons/icon-512.png` (512x512 pixels)
 
 You can use tools like:
 - [Favicon.io](https://favicon.io/)
@@ -112,7 +112,7 @@ Free hosting options for PWAs:
 
 1. Push your code to GitHub
 2. Go to Settings → Pages
-3. Select "Deploy from branch" → `main` → `/public`
+3. Select "Deploy from branch" → `main` → `/docs`
 4. Your app will be live at `https://username.github.io/cooking-dada/`
 
 ## License
