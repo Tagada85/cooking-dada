@@ -3,7 +3,7 @@
         "target": "ES2020",
         "module": "ESNext",
         "strict": true,
-        "outDir": "dist",
+        "outDir": "docs/dist",
         "rootDir": "src"
     }
 }

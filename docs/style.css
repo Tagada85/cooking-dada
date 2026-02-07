@@ -191,6 +191,18 @@ main {
   background: var(--peach-light);
 }
 
+.btn-grocery {
+  background: var(--charcoal);
+  color: var(--cream);
+  box-shadow: 0 3px 6px rgba(44, 36, 25, 0.3);
+}
+
+.btn-grocery:hover {
+  background: var(--charcoal-light);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(44, 36, 25, 0.4);
+}
+
 /* ===== Recipe Cards Grid ===== */
 .recipes-section {
   margin-bottom: 3rem;
@@ -305,7 +317,8 @@ main {
 }
 
 .recipe-card .btn-edit-recipe,
-.recipe-card .btn-delete-recipe {
+.recipe-card .btn-delete-recipe,
+.recipe-card .btn-add-grocery {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   border-radius: 6px;
@@ -315,7 +328,8 @@ main {
   transition: all 0.2s ease;
 }
 
-.recipe-card .btn-edit-recipe:hover {
+.recipe-card .btn-edit-recipe:hover,
+.recipe-card .btn-add-grocery:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
@@ -768,6 +782,132 @@ form {
     padding: 0.3rem 1rem;
     border-radius: 4px;
   }
+}
+
+/* ===== Grocery List ===== */
+#grocery-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.grocery-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--cream-dark);
+  border-radius: 8px;
+  border-left: 4px solid var(--peach);
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.grocery-item-checked {
+  background: var(--green-available);
+  border-left-color: #2d5a3d;
+}
+
+.grocery-item-checked .grocery-item-name {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.grocery-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  flex: 1;
+}
+
+.grocery-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--charcoal);
+}
+
+.grocery-item-name {
+  color: var(--charcoal);
+  font-weight: 500;
+}
+
+.grocery-item-qty-group {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.grocery-qty-input {
+  width: 70px;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--peach-dark);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  text-align: right;
+  background: white;
+}
+
+.grocery-qty-input:focus {
+  outline: none;
+  border-color: var(--charcoal);
+}
+
+.grocery-unit-label {
+  font-size: 0.85rem;
+  color: var(--charcoal-light);
+  min-width: 20px;
+}
+
+.btn-remove-grocery {
+  background: transparent;
+  border: none;
+  color: var(--charcoal-light);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.btn-remove-grocery:hover {
+  background: var(--red-missing);
+  color: white;
+}
+
+#grocery-items .empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--charcoal-light);
+}
+
+#grocery-items .empty-hint {
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+.grocery-actions {
+  justify-content: space-between;
+}
+
+.btn-close-grocery {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--cream);
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.btn-close-grocery:hover {
+  opacity: 1;
 }
 
 /* ===== Utility Classes ===== */

@@ -40,6 +40,9 @@
       <button id="addRecipe" class="btn btn-secondary">
         + Nouvelle recette
       </button>
+      <button id="openGroceryList" class="btn btn-grocery">
+        🛒 Liste de courses
+      </button>
     </div>
 
     <!-- Recipes Section -->
@@ -121,6 +124,23 @@
         <button type="button" id="cancelRecipe" class="btn btn-ghost">Annuler</button>
         <button type="button" id="submitRecipe" class="btn btn-primary">Enregistrer</button>
       </div>
+    </div>
+  </dialog>
+
+  <!-- Grocery List Dialog -->
+  <dialog id="groceryDialog">
+    <div class="dialog-header">
+      <h2>🛒 Liste de courses</h2>
+    </div>
+    <div class="dialog-body">
+      <div id="grocery-items">
+        <!-- Grocery items will be inserted here -->
+      </div>
+      <div class="form-actions grocery-actions">
+        <button type="button" id="clearGroceryList" class="btn btn-ghost">Vider la liste</button>
+        <button type="button" id="finishShopping" class="btn btn-primary">Courses faites !</button>
+      </div>
+      <button type="button" id="closeGroceryList" class="btn-close-grocery">✕</button>
     </div>
   </dialog>
 </body>

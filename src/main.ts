@@ -14,6 +14,7 @@ import {
   displayRecipes,
   setupStockDialog,
   setupRecipeDialog,
+  setupGroceryDialog,
 } from "./ui.js";
 
 // Initialize the application
@@ -38,5 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Setup dialogs
     setupStockDialog();
     setupRecipeDialog();
+    setupGroceryDialog();
   });
 });

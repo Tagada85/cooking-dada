@@ -1,4 +1,4 @@
-const CACHE_NAME = "cooking-dada-v7";
+const CACHE_NAME = "cooking-dada-v11";
 
 const FILES = [
   "./",
@@ -13,6 +13,7 @@ const FILES = [
   "./dist/stocks.js",
   "./dist/recipes.js",
   "./dist/ui.js",
+  "./dist/groceryList.js",
   "./recettes.json",
 ];
 

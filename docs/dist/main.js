@@ -7,7 +7,7 @@
  */
 import { loadRecipes, setRecipes } from "./recipes.js";
 import { loadStocks } from "./stocks.js";
-import { populateIngredientList, displayStocksInfos, displayRecipes, setupStockDialog, setupRecipeDialog, } from "./ui.js";
+import { populateIngredientList, displayStocksInfos, displayRecipes, setupStockDialog, setupRecipeDialog, setupGroceryDialog, } from "./ui.js";
 // Initialize the application
 async function init() {
     const recipes = await loadRecipes();
@@ -26,5 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // Setup dialogs
         setupStockDialog();
         setupRecipeDialog();
+        setupGroceryDialog();
     });
 });

@@ -1,6 +1,7 @@
 import { UnitType, hasEnough, formatQuantity } from "./units.js";
 import { loadStocks, addMultipleToStock, cookRecipe } from "./stocks.js";
 import { getRecipes, addRecipe, updateRecipe, deleteRecipe } from "./recipes.js";
+import { addRecipeToGroceryList, getGroceryList, removeFromGroceryList, clearGroceryList, toggleGroceryItemChecked, updateGroceryItemQuantity, getCheckedItems, removeCheckedItems } from "./groceryList.js";
 // ===== Ingredient List Autocomplete =====
 export async function populateIngredientList() {
     const datalist = document.getElementById("ingredients-list");
@@ -67,6 +68,20 @@ async function handleCookRecipe(recipeIndex) {
     displayStocksInfos();
     displayRecipes();
 }
+async function handleAddToGroceryList(recipe) {
+    const result = await addRecipeToGroceryList(recipe.ingredients);
+    if (result.added.length === 0) {
+        alert(`✅ Tu as déjà tous les ingrédients pour "${recipe.name}" !`);
+        return;
+    }
+    let message = `🛒 Ajouté à la liste de courses pour "${recipe.name}" :\n\n`;
+    message += result.added.map(item => `  • ${formatQuantity(item.quantity, item.unit)} ${item.name}`).join('\n');
+    if (result.skipped.length > 0) {
+        message += `\n\n✅ Déjà en stock :\n`;
+        message += result.skipped.map(name => `  • ${name}`).join('\n');
+    }
+    alert(message);
+}
 export async function displayRecipes() {
     const container = document.getElementById("recipesContainer");
     container.innerHTML = "";
@@ -103,6 +118,7 @@ export async function displayRecipes() {
           <button class="btn-cook-recipe ${isAvailable ? '' : 'btn-cook-warning'}" data-index="${index}" title="${isAvailable ? 'Cuisiner' : 'Cuisiner (ingrédients manquants)'}">
             🍳 Cuisiner
           </button>
+          <button class="btn-add-grocery" data-index="${index}" title="Ajouter à la liste de courses">🛒</button>
           <button class="btn-edit-recipe" data-index="${index}" title="Modifier">✏️</button>
           <button class="btn-delete-recipe" data-index="${index}" title="Supprimer">🗑️</button>
         </div>
@@ -110,11 +126,16 @@ export async function displayRecipes() {
     `;
         // Event listeners
         const cookBtn = card.querySelector(".btn-cook-recipe");
+        const groceryBtn = card.querySelector(".btn-add-grocery");
         const editBtn = card.querySelector(".btn-edit-recipe");
         const deleteBtn = card.querySelector(".btn-delete-recipe");
         cookBtn.addEventListener("click", (e) => {
             e.stopPropagation();
             handleCookRecipe(index);
+        });
+        groceryBtn.addEventListener("click", async (e) => {
+            e.stopPropagation();
+            await handleAddToGroceryList(recipe);
         });
         editBtn.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -392,5 +413,130 @@ export function setupRecipeDialog() {
                 addIngredientBtn.click();
             }
         }
+    });
+}
+// ===== Grocery List Dialog =====
+function getUnitLabel(unit) {
+    switch (unit) {
+        case UnitType.GRAM: return "g";
+        case UnitType.KILO: return "kg";
+        case UnitType.LITRE: return "L";
+        case UnitType.ML: return "ml";
+        case UnitType.UNIT: return "";
+        default: return "";
+    }
+}
+function displayGroceryList() {
+    const container = document.getElementById("grocery-items");
+    const list = getGroceryList();
+    if (list.length === 0) {
+        container.innerHTML = `
+      <div class="empty-state">
+        <p>Ta liste de courses est vide.</p>
+        <p class="empty-hint">Clique sur 🛒 sur une recette pour ajouter les ingrédients manquants.</p>
+      </div>
+    `;
+        return;
+    }
+    container.innerHTML = list.map((item, index) => `
+    <div class="grocery-item ${item.checked ? 'grocery-item-checked' : ''}" data-index="${index}">
+      <label class="grocery-checkbox-label">
+        <input type="checkbox" class="grocery-checkbox" data-index="${index}" ${item.checked ? 'checked' : ''}>
+        <span class="grocery-item-name">${item.name}</span>
+      </label>
+      <div class="grocery-item-qty-group">
+        <input type="number" class="grocery-qty-input" data-index="${index}" value="${item.quantity}" min="1" step="any">
+        <span class="grocery-unit-label">${getUnitLabel(item.unit)}</span>
+      </div>
+      <button class="btn-remove-grocery" data-index="${index}" title="Retirer">✕</button>
+    </div>
+  `).join('');
+    // Add event listeners for checkboxes
+    container.querySelectorAll(".grocery-checkbox").forEach((checkbox) => {
+        checkbox.addEventListener("change", (e) => {
+            const index = parseInt(e.target.dataset.index || "0");
+            toggleGroceryItemChecked(index);
+            displayGroceryList();
+        });
+    });
+    // Add event listeners for quantity inputs
+    container.querySelectorAll(".grocery-qty-input").forEach((input) => {
+        input.addEventListener("change", (e) => {
+            const index = parseInt(e.target.dataset.index || "0");
+            const newQty = parseFloat(e.target.value);
+            if (newQty > 0) {
+                updateGroceryItemQuantity(index, newQty);
+            }
+        });
+    });
+    // Add event listeners for remove buttons
+    container.querySelectorAll(".btn-remove-grocery").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+            const index = parseInt(e.target.dataset.index || "0");
+            removeFromGroceryList(index);
+            displayGroceryList();
+        });
+    });
+}
+export function setupGroceryDialog() {
+    const dialog = document.getElementById("groceryDialog");
+    const openBtn = document.getElementById("openGroceryList");
+    const closeBtn = document.getElementById("closeGroceryList");
+    const clearBtn = document.getElementById("clearGroceryList");
+    const finishBtn = document.getElementById("finishShopping");
+    openBtn.addEventListener("click", () => {
+        displayGroceryList();
+        document.body.classList.add("dialog-open");
+        dialog.showModal();
+    });
+    closeBtn.addEventListener("click", () => {
+        dialog.close();
+    });
+    clearBtn.addEventListener("click", () => {
+        if (getGroceryList().length === 0)
+            return;
+        if (confirm("Vider toute la liste de courses ?")) {
+            clearGroceryList();
+            displayGroceryList();
+        }
+    });
+    finishBtn.addEventListener("click", async () => {
+        const checkedItems = getCheckedItems();
+        if (checkedItems.length === 0) {
+            alert("Aucun article coché !\n\nCoche les articles que tu as achetés.");
+            return;
+        }
+        // Build confirmation message
+        let confirmMsg = "Ajouter au stock ?\n\n";
+        confirmMsg += checkedItems.map(item => `  • ${formatQuantity(item.quantity, item.unit)} ${item.name}`).join('\n');
+        if (!confirm(confirmMsg))
+            return;
+        // Add checked items to stock
+        const itemsToAdd = checkedItems.map(item => ({
+            name: item.name,
+            quantity: item.quantity,
+            unit: item.unit,
+        }));
+        const errors = await addMultipleToStock(itemsToAdd);
+        if (errors.length > 0) {
+            alert(`⚠️ Certains articles n'ont pas pu être ajoutés:\n${errors.join('\n')}`);
+        }
+        // Remove checked items from grocery list
+        removeCheckedItems();
+        // Refresh displays
+        displayGroceryList();
+        displayStocksInfos();
+        displayRecipes();
+        populateIngredientList();
+        // Show success message
+        const remaining = getGroceryList().length;
+        let successMsg = `✅ ${checkedItems.length} article(s) ajouté(s) au stock !`;
+        if (remaining > 0) {
+            successMsg += `\n\n${remaining} article(s) restant(s) dans ta liste.`;
+        }
+        alert(successMsg);
+    });
+    dialog.addEventListener("close", () => {
+        document.body.classList.remove("dialog-open");
     });
 }
