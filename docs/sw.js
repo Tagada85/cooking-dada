@@ -1,4 +1,4 @@
-const CACHE_NAME = "cooking-dada-v11";
+const CACHE_NAME = "cooking-dada-v14";
 
 const FILES = [
   "./",
