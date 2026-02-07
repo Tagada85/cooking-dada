@@ -1,7 +1,16 @@
 /* ===== Cooking Dada - Original Cookbook Theme ===== */
 
-/* Import a script font similar to the cookbook */
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans:wght@400;600;700&display=swap');
+/* Import Open Sans from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
+/* Local Lobster font */
+@font-face {
+  font-family: 'Lobster';
+  src: url('./font/lobster/Lobster 1.4.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   /* Colors from the original cookbook */
@@ -66,7 +75,7 @@ header .chef-hat {
 }
 
 header h1 {
-  font-family: 'Pacifico', cursive;
+  font-family: 'Lobster', cursive;
   font-size: 2.8rem;
   font-weight: 400;
   letter-spacing: 1px;
@@ -115,7 +124,7 @@ main {
 
 /* ===== Section Titles - Script Style ===== */
 .section-title {
-  font-family: 'Pacifico', cursive;
+  font-family: 'Lobster', cursive;
   font-size: 1.8rem;
   font-weight: 400;
   color: var(--charcoal);
@@ -203,9 +212,130 @@ main {
   box-shadow: 0 5px 12px rgba(44, 36, 25, 0.4);
 }
 
+.btn-import {
+  background: linear-gradient(135deg, #5c7cfa 0%, #4263eb 100%);
+  color: white;
+  box-shadow: 0 3px 6px rgba(66, 99, 235, 0.3);
+}
+
+.btn-import:hover {
+  background: linear-gradient(135deg, #4263eb 0%, #3b5bdb 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(66, 99, 235, 0.4);
+}
+
+/* ===== Import Dialog Status ===== */
+.import-status {
+  min-height: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.import-status:empty {
+  display: none;
+}
+
+.import-status.import-error {
+  background: rgba(235, 77, 75, 0.1);
+  color: #c0392b;
+  border: 1px solid rgba(235, 77, 75, 0.3);
+}
+
+.import-status.import-success {
+  background: rgba(39, 174, 96, 0.1);
+  color: #27ae60;
+  border: 1px solid rgba(39, 174, 96, 0.3);
+}
+
+.import-btn-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 /* ===== Recipe Cards Grid ===== */
 .recipes-section {
   margin-bottom: 3rem;
+}
+
+/* Recipe Search and Filter Bar */
+.recipe-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--peach-dark);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: var(--cream);
+  color: var(--charcoal);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--charcoal);
+  box-shadow: 0 0 0 3px rgba(44, 36, 25, 0.1);
+}
+
+.search-input::placeholder {
+  color: var(--charcoal-light);
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filter-btn {
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--peach-dark);
+  border-radius: 8px;
+  background: var(--cream);
+  color: var(--charcoal);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background: var(--peach-light);
+}
+
+.filter-btn.active {
+  background: var(--charcoal);
+  color: var(--cream);
+  border-color: var(--charcoal);
+}
+
+.tag-filter-select {
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--peach-dark);
+  border-radius: 8px;
+  background: var(--cream);
+  color: var(--charcoal);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 150px;
+}
+
+.tag-filter-select:focus {
+  outline: none;
+  border-color: var(--charcoal);
+  box-shadow: 0 0 0 3px rgba(44, 36, 25, 0.1);
 }
 
 #recipesContainer {
@@ -235,7 +365,7 @@ main {
 }
 
 .recipe-card h3 {
-  font-family: 'Pacifico', cursive;
+  font-family: 'Lobster', cursive;
   font-size: 1.4rem;
   font-weight: 400;
   color: var(--text-light);
@@ -256,6 +386,72 @@ main {
   display: flex;
   align-items: center;
   gap: 0.3rem;
+}
+
+/* Portion scaling controls */
+.portion-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-portion {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--cream);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.btn-portion:hover {
+  background: var(--peach);
+  color: var(--charcoal);
+}
+
+.btn-portion:active {
+  transform: scale(0.95);
+}
+
+.btn-portion-minus:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.portion-count {
+  min-width: 70px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.portion-number {
+  font-weight: 700;
+}
+
+/* Recipe tags on cards */
+.recipe-card .recipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.recipe-card .recipe-tag {
+  background: var(--peach);
+  color: var(--charcoal);
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: lowercase;
 }
 
 /* Torn paper label effect for ingredients */
@@ -378,7 +574,7 @@ main {
 }
 
 .stocks-section h2 {
-  font-family: 'Pacifico', cursive;
+  font-family: 'Lobster', cursive;
   font-size: 1.5rem;
   font-weight: 400;
   color: var(--charcoal);
@@ -465,7 +661,7 @@ dialog .dialog-header {
 }
 
 dialog .dialog-header h2 {
-  font-family: 'Pacifico', cursive;
+  font-family: 'Lobster', cursive;
   font-size: 1.5rem;
   font-weight: 400;
   margin: 0;
@@ -534,6 +730,120 @@ form {
 
 .form-actions .btn {
   flex: 1;
+}
+
+/* ===== Tag Selector in Recipe Dialog ===== */
+.tag-selector {
+  background: var(--peach-light);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.preset-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tag-chip {
+  background: var(--cream);
+  border: 2px solid var(--peach-dark);
+  border-radius: 20px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  color: var(--charcoal);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tag-chip:hover {
+  background: var(--peach);
+}
+
+.tag-chip.active {
+  background: var(--charcoal);
+  color: var(--cream);
+  border-color: var(--charcoal);
+}
+
+.custom-tag-input {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.custom-tag-input input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--peach-dark);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background: var(--white);
+}
+
+.custom-tag-input input:focus {
+  outline: none;
+  border-color: var(--charcoal);
+}
+
+.btn-add-tag {
+  background: var(--peach);
+  color: var(--charcoal);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-add-tag:hover {
+  background: var(--peach-dark);
+}
+
+.selected-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-height: 32px;
+  align-items: center;
+}
+
+.selected-tags .no-tags {
+  color: var(--charcoal-light);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.selected-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--charcoal);
+  color: var(--cream);
+  padding: 0.3rem 0.6rem;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.selected-tag .remove-tag {
+  background: transparent;
+  border: none;
+  color: var(--cream);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+  margin-left: 0.2rem;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.selected-tag .remove-tag:hover {
+  opacity: 1;
 }
 
 /* ===== Multi-row Stock Form ===== */
@@ -752,6 +1062,28 @@ form {
   
   #recipesContainer {
     grid-template-columns: 1fr;
+  }
+  
+  .recipe-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-input {
+    width: 100%;
+  }
+  
+  .filter-buttons {
+    justify-content: center;
+  }
+  
+  .filter-btn {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .tag-filter-select {
+    width: 100%;
   }
   
   .action-bar {

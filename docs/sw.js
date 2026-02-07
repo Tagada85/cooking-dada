@@ -1,4 +1,4 @@
-const CACHE_NAME = "cooking-dada-v14";
+const CACHE_NAME = "cooking-dada-v20";
 
 const FILES = [
   "./",
@@ -14,7 +14,9 @@ const FILES = [
   "./dist/recipes.js",
   "./dist/ui.js",
   "./dist/groceryList.js",
+  "./dist/recipeImport.js",
   "./recettes.json",
+  "./font/lobster/Lobster 1.4.otf",
 ];
 
 // Install: cache all static files

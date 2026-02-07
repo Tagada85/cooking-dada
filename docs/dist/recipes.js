@@ -26,6 +26,7 @@ function parseRawRecipes(rawRecipes) {
                 unit: parsedUnit ?? UnitType.UNIT,
             };
         }),
+        tags: recipe.tags ?? [],
     }));
 }
 // Fetch default recipes from JSON file
@@ -63,6 +64,7 @@ export function saveRecipes() {
             quantity: ing.quantity,
             unit: ing.unit,
         })),
+        tags: r.tags,
     }));
     localStorage.setItem(RECIPES_STORAGE_KEY, JSON.stringify(raw));
 }
@@ -84,4 +86,12 @@ export function deleteRecipe(index) {
         recipes.splice(index, 1);
         saveRecipes();
     }
+}
+// Get all unique tags from all recipes
+export function getAllTags() {
+    const tagSet = new Set();
+    recipes.forEach(recipe => {
+        recipe.tags.forEach(tag => tagSet.add(tag));
+    });
+    return Array.from(tagSet).sort();
 }

@@ -10,6 +10,7 @@ export type Recipe = {
   name: string;
   numberPeople: number;
   ingredients: Ingredient[];
+  tags: string[];
 };
 
 export type Stock = {
@@ -29,4 +30,5 @@ export type RawRecipe = {
   name: string;
   numberPeople: number;
   ingredients: RawIngredient[];
+  tags?: string[];
 };

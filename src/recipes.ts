@@ -32,6 +32,7 @@ function parseRawRecipes(rawRecipes: RawRecipe[]): Recipe[] {
         unit: parsedUnit ?? UnitType.UNIT,
       };
     }),
+    tags: recipe.tags ?? [],
   }));
 }
 
@@ -72,6 +73,7 @@ export function saveRecipes(): void {
       quantity: ing.quantity,
       unit: ing.unit,
     })),
+    tags: r.tags,
   }));
   localStorage.setItem(RECIPES_STORAGE_KEY, JSON.stringify(raw));
 }
@@ -96,4 +98,13 @@ export function deleteRecipe(index: number): void {
     recipes.splice(index, 1);
     saveRecipes();
   }
+}
+
+// Get all unique tags from all recipes
+export function getAllTags(): string[] {
+  const tagSet = new Set<string>();
+  recipes.forEach(recipe => {
+    recipe.tags.forEach(tag => tagSet.add(tag));
+  });
+  return Array.from(tagSet).sort();
 }

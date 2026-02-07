@@ -40,6 +40,9 @@
       <button id="addRecipe" class="btn btn-secondary">
         + Nouvelle recette
       </button>
+      <button id="importRecipe" class="btn btn-import">
+        🌐 Importer
+      </button>
       <button id="openGroceryList" class="btn btn-grocery">
         🛒 Liste de courses
       </button>
@@ -48,6 +51,21 @@
     <!-- Recipes Section -->
     <section class="recipes-section">
       <h2 class="section-title">Mes Recettes</h2>
+      
+      <!-- Search and Filter Bar -->
+      <div class="recipe-filters">
+        <input type="text" id="recipeSearch" placeholder="Rechercher une recette..." class="search-input">
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all">Toutes</button>
+          <button class="filter-btn" data-filter="available">Prêtes</button>
+          <button class="filter-btn" data-filter="unavailable">Manquantes</button>
+        </div>
+        <select id="tagFilter" class="tag-filter-select">
+          <option value="">Tous les tags</option>
+          <!-- Tags will be populated dynamically -->
+        </select>
+      </div>
+      
       <div id="recipesContainer">
         <!-- Recipe cards will be inserted here -->
       </div>
@@ -120,6 +138,27 @@
         <button type="button" id="addRecipeIngredientBtn" class="btn btn-add-row">+ Ajouter un ingrédient</button>
       </div>
       
+      <div class="form-group">
+        <label>Tags</label>
+        <div class="tag-selector">
+          <div class="preset-tags">
+            <button type="button" class="tag-chip" data-tag="rapide">rapide</button>
+            <button type="button" class="tag-chip" data-tag="végétarien">végétarien</button>
+            <button type="button" class="tag-chip" data-tag="dessert">dessert</button>
+            <button type="button" class="tag-chip" data-tag="été">été</button>
+            <button type="button" class="tag-chip" data-tag="hiver">hiver</button>
+            <button type="button" class="tag-chip" data-tag="économique">économique</button>
+          </div>
+          <div class="custom-tag-input">
+            <input type="text" id="custom-tag" placeholder="Ajouter un tag personnalisé...">
+            <button type="button" id="addCustomTag" class="btn-add-tag">+</button>
+          </div>
+          <div id="selected-tags" class="selected-tags">
+            <!-- Selected tags will appear here -->
+          </div>
+        </div>
+      </div>
+      
       <div class="form-actions">
         <button type="button" id="cancelRecipe" class="btn btn-ghost">Annuler</button>
         <button type="button" id="submitRecipe" class="btn btn-primary">Enregistrer</button>
@@ -141,6 +180,35 @@
         <button type="button" id="finishShopping" class="btn btn-primary">Courses faites !</button>
       </div>
       <button type="button" id="closeGroceryList" class="btn-close-grocery">✕</button>
+    </div>
+  </dialog>
+
+  <!-- Import Recipe Dialog -->
+  <dialog id="importDialog">
+    <div class="dialog-header">
+      <h2>🌐 Importer une recette</h2>
+    </div>
+    <div class="dialog-body">
+      <p class="dialog-intro">
+        Colle l'URL d'une recette depuis Marmiton, Jow, 750g, ou d'autres sites.
+      </p>
+      <div class="form-group">
+        <label for="import-url">URL de la recette</label>
+        <input 
+          type="url" 
+          id="import-url" 
+          placeholder="https://www.marmiton.org/recettes/..."
+          required
+        />
+      </div>
+      <div id="import-status" class="import-status"></div>
+      <div class="form-actions">
+        <button type="button" id="cancelImport" class="btn btn-ghost">Annuler</button>
+        <button type="button" id="submitImport" class="btn btn-primary">
+          <span class="import-btn-text">Importer</span>
+          <span class="import-btn-loading" hidden>Chargement...</span>
+        </button>
+      </div>
     </div>
   </dialog>
 </body>
