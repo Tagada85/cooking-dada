@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build output (optional - you may want to include dist/ for GitHub Pages)
+# dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local development
+*.local
+
+# Logs
+*.log
+npm-debug.log*

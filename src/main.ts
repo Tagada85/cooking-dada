@@ -1,61 +1,42 @@
-/*
-Modèle de données:
-
-J'ai 1 kilo de riz
-J'ai 3 pâtes feuilletés
-J'ai 2 kilos de farine de blé
-J'ai 12 oeufs
-
-
-Modèle stocks
-
-{"name": "Riz basmati", "quantity": "1", "unit": "kilo"}
-
-Modèle Recettes
-
-{
-"name": "Risotto Champignons",
-"nbrePersonnes": 6,
-"ingredients": [
-{name: "riz rond",  "quantity": 1, "unit": "kilo"},
-{name: "vin blanc", "quantity": "0.25", "unit": "litre"}
-}
-}
-
-Modèle equivalence pour les trucs approximatifs
-
-
-ex:
-{"unit": "cuillère à soupe", "eq": {"quantity":"5", "unit": "grammes"}}
-
+/**
+ * Cooking Dada - Main Entry Point
+ * 
+ * A personal cooking assistant app that helps track:
+ * - Ingredient inventory (stocks)
+ * - Recipes and their availability based on current stock
  */
 
-export enum UnitType {
-  KILO="Kilo",
-  UNIT="Unité",
-  LITRE="Litre",
-  GRAMME="Gramme",
-  TABLESPOON="Cuillère à soupe",
-  COFFEESPOON="Cuillère à café"
+import { loadRecipes, setRecipes } from "./recipes.js";
+import { loadStocks } from "./stocks.js";
+import {
+  populateIngredientList,
+  displayStocksInfos,
+  displayRecipes,
+  setupStockDialog,
+  setupRecipeDialog,
+} from "./ui.js";
+
+// Initialize the application
+async function init(): Promise<void> {
+  const recipes = await loadRecipes();
+  setRecipes(recipes);
+  
+  const stocks = await loadStocks();
+  console.log("App initialized:", { recipes: recipes.length, stocks: stocks.length });
 }
 
-export type Stock = {name: string; quantity: number, unit: UnitType};
-
-const updateStocks = (stock: Stock) => {
-  const stocks = JSON.parse(<string>localStorage.getItem("stocks")) || [];
-  const index = stocks.findIndex((s: Stock) => s.name === stock.name);
-  if(index !== -1 ) {
-    stocks[index] = stock;
-    localStorage.setItem("stocks", JSON.stringify(stocks));
-  } else {
-    stocks.push(stock);
-  }
-}
-
-async function loadRecipes() {
-  const res = await fetch("/recettes.json");
-  if (!res.ok) throw new Error("Failed to load recipes");
-  return res.json();
-}
-
-
+// Start the app when DOM is ready
+document.addEventListener("DOMContentLoaded", () => {
+  init().then(() => {
+    console.log("Init complete");
+    
+    // Populate UI
+    populateIngredientList();
+    displayStocksInfos();
+    displayRecipes();
+    
+    // Setup dialogs
+    setupStockDialog();
+    setupRecipeDialog();
+  });
+});

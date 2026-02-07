@@ -5,11 +5,18 @@
         {"name": "Riz rond",  "quantity": 0.7, "unit": "kilo"},
         {"name": "Vin blanc", "quantity": 0.2, "unit": "litre"},
         {"name": "Cube bouillon de légumes", "quantity": 2.5, "unit": "unité"},
-        {"name": "Parmesan rapé", "quantity": 10, "unit": "cuillère à soupe"},
+        {"name": "Parmesan rapé", "quantity": 60, "unit": "gramme"},
         {"name": "Champignons bruns", "quantity": 1, "unit": "kilo"},
         {"name": "Echalote", "quantity": 2.5, "unit": "unité"},
         {"name": "Gousse d'ail", "quantity": 2.5, "unit": "unité"},
-        {"name": "Roquette", "quantity": 10, "unit": "poignée"}
+        {"name": "Roquette", "quantity": 10, "unit": "unité"}
     ]
-
-}]
+},
+    {
+        "name": "Pancakes",
+        "numberPeople": 10,
+        "ingredients": [
+            {"name": "Farine de blé", "quantity": 1, "unit": "kilo"},
+            {"name":  "Extrait de vanille", "quantity": 0.2, "unit":  "litre"}
+        ]
+    }]
