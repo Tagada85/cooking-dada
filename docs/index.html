@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Ton assistant cuisine personnel - Gère ton inventaire et découvre quelles recettes tu peux cuisiner">
+  <meta name="theme-color" content="#e8a87c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Cooking Dada">
+  
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./style.css">
+  
+  <script type="module" src="./dist/main.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js")
+        .then(() => console.log("Service Worker registered"))
+        .catch((err) => console.error("Service Worker registration failed:", err));
+    }
+  </script>
+  <title>Cooking Dada</title>
+</head>
+<body>
+  <header>
+    <div class="chef-hat">👨‍🍳</div>
+    <h1>Cooking Dada</h1>
+    <p class="subtitle">extase et gourmandise</p>
+  </header>
+
+  <main>
+    <!-- Action Bar -->
+    <div class="action-bar">
+      <button id="stockUpdate" class="btn btn-primary">
+        + Ajouter au stock
+      </button>
+      <button id="addRecipe" class="btn btn-secondary">
+        + Nouvelle recette
+      </button>
+    </div>
+
+    <!-- Recipes Section -->
+    <section class="recipes-section">
+      <h2 class="section-title">Mes Recettes</h2>
+      <div id="recipesContainer">
+        <!-- Recipe cards will be inserted here -->
+      </div>
+    </section>
+
+    <!-- Stocks Section -->
+    <section class="stocks-section">
+      <h2>📦 Mon Inventaire</h2>
+      <div id="stocksInfosContainer">
+        <!-- Stock items will be inserted here -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Stock Dialog -->
+  <dialog id="stockDialog">
+    <div class="dialog-header">
+      <h2>Ajouter au stock</h2>
+    </div>
+    <div class="dialog-body">
+      <p class="dialog-intro">Ajoute des ingrédients à ton inventaire. Les quantités seront ajoutées aux stocks existants.</p>
+      
+      <div id="stock-rows">
+        <!-- Stock rows will be inserted here -->
+      </div>
+      
+      <button type="button" id="addRowBtn" class="btn btn-add-row">+ Ajouter une ligne</button>
+      
+      <div class="form-actions">
+        <button type="button" id="cancelStock" class="btn btn-ghost">Annuler</button>
+        <button type="button" id="submitStocks" class="btn btn-primary">Enregistrer tout</button>
+      </div>
+      
+      <datalist id="ingredients-list"></datalist>
+    </div>
+  </dialog>
+
+  <!-- Recipe Dialog -->
+  <dialog id="recipeDialog">
+    <div class="dialog-header">
+      <h2 id="recipe-dialog-title">Nouvelle recette</h2>
+    </div>
+    <div class="dialog-body">
+      <div class="form-group">
+        <label for="recipe-name">Nom de la recette</label>
+        <input 
+          type="text" 
+          id="recipe-name" 
+          placeholder="Ex: Risotto aux champignons..."
+          required
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="recipe-people">Nombre de personnes</label>
+        <input 
+          type="number" 
+          id="recipe-people" 
+          min="1" 
+          value="4"
+          required
+        />
+      </div>
+      
+      <div class="form-group">
+        <label>Ingrédients</label>
+        <div id="recipe-ingredient-rows">
+          <!-- Ingredient rows will be inserted here -->
+        </div>
+        <button type="button" id="addRecipeIngredientBtn" class="btn btn-add-row">+ Ajouter un ingrédient</button>
+      </div>
+      
+      <div class="form-actions">
+        <button type="button" id="cancelRecipe" class="btn btn-ghost">Annuler</button>
+        <button type="button" id="submitRecipe" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>
